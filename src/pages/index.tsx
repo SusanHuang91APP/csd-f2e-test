@@ -1,14 +1,17 @@
 import Layout from "@/components/layout";
 import MultiLevelMenu from "@/components/multiLevelMenu";
-import { Box, Breadcrumbs, Typography, Paper, Link } from "@mui/material";
-import { TCategory } from "@/types/category.type";
-import React, { useState } from "react";
-
+import BreadCrumbs from "@/components/breadCrumbs";
+import { Box, Typography, Paper, Link } from "@mui/material";
+import type { TCategory } from "@/types/category.type";
+import React, { useCallback, useState } from "react";
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<TCategory[]>([]);
-
-  const handleSelectMenu = (categories: TCategory[]) => {};
-
+  const handleSelectMenu = useCallback(
+    (categories: TCategory[]) => {
+      setSelectedCategories(categories);
+    },
+    [setSelectedCategories]
+  );
   return (
     <Layout>
       <Typography variant="h5" component="div" sx={{ mb: 1 }}>
@@ -19,7 +22,6 @@ export default function Home() {
           https://csd-f2e-test-answer.vercel.app/
         </Link>
       </Box>
-
       <Typography variant="h5" component="div" sx={{ mb: 1 }}>
         需求1：請依照 Api Response 實作多層分類選單元件(MultiLevelMenu)
       </Typography>
@@ -37,18 +39,12 @@ export default function Home() {
       <Paper sx={{ mb: 4 }}>
         <MultiLevelMenu onSelect={handleSelectMenu} />
       </Paper>
-
       <Typography variant="h5" component="div" sx={{ mb: 2 }}>
         需求2：請依分類選擇呈現多層選單路徑
       </Typography>
+      {/* TODO: 需求2：請依分類選擇呈現多層選單路徑 */}
       <Box>
-        {selectedCategories.length > 0 ? (
-          <React.Fragment>
-            {/* TODO: 需求2：請依分類選擇呈現多層選單路徑 */}
-          </React.Fragment>
-        ) : (
-          <Typography color={"inherit"}>尚未選擇分類</Typography>
-        )}
+        <BreadCrumbs selectedCategories={selectedCategories} />
       </Box>
     </Layout>
   );
